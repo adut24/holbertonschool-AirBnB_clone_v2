@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Generate a .tgz archive and distribute it"""
 from fabric.operations import local, run, put
-from fabric.api import env
+from fabric.api import env, runs_once
 from datetime import datetime
 from os.path import exists, basename, getsize
 
@@ -9,6 +9,7 @@ from os.path import exists, basename, getsize
 env.hosts = ['18.212.205.195', '50.17.11.48']
 
 
+@runs_once
 def do_pack():
     """Generate the .tgz archive"""
     now = datetime.now()
