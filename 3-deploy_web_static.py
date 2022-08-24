@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Generate a .tgz archive and distribute it"""
 from fabric.operations import local, run, put
-from fabric.api import env, runs_once
+from fabric.api import env
 from datetime import datetime
 from os.path import exists, basename, getsize
 
