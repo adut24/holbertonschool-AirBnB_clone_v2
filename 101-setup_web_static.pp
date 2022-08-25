@@ -39,10 +39,10 @@ exec {'ln':
   require => Exec['rm'],
 }
 
-chown_r {'/data':
-  want_user  => 'ubuntu',
-  want_group => 'ubuntu',
-  require    => [Exec['mkdir1'], Exec['mkdir2']],
+exec {'chown':
+  command => 'chown -R vagrant:vagrant /data/',
+  path    => '/usr/bin/',
+  require => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
 file_line {'redirection':
