@@ -48,7 +48,7 @@ exec {'chown':
 file_line {'redirection':
   ensure  => 'present',
   path    => '/etc/nginx/sites-available/default',
-  index   => '47',
+  after   => 'server_name _;',
   line    => 'location /hbnb_static { alias /data/web_static/current/; autoindex off; }',
   require => Package['nginx'],
 }
