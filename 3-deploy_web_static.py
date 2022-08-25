@@ -34,7 +34,7 @@ def do_deploy(archive_path):
     res = put(archive_path, '/tmp/')
     if not res.succeeded:
         return False
-    res = run('mkdir -p /data/web_static/releases/{}'.format(dir))
+    res = run('mkdir -p /data/web_static/releases/{}/'.format(dir))
     if not res.succeeded:
         return False
     res = run('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
