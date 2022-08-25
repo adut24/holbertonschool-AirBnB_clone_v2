@@ -39,10 +39,10 @@ exec {'ln':
   require => Exec['rm'],
 }
 
-exec {'chown':
-  command => 'chown -R ubuntu:ubuntu /data/',
-  path    => '/usr/bin/',
-  require => [Exec['mkdir1'], Exec['mkdir2']],
+chown_r {'/data':
+  want_user  => 'ubuntu',
+  want_group => 'ubuntu',
+  require    => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
 file_line {'redirection':
