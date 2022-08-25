@@ -35,7 +35,7 @@ def do_deploy(archive_path):
     res = put(archive_path, '/tmp/')
     if not res.succeeded:
         return False
-    res = run('mkdir -p /data/web_static/releases/{}'.format(dir))
+    res = run('mkdir -p /data/web_static/releases/{}/'.format(dir))
     if not res.succeeded:
         return False
     res = run('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
@@ -71,26 +71,23 @@ def deploy():
     return do_deploy(path)
 
 
-def clean_locally(files):
-    """Remove the archives locally"""
-    for file in files:
-        local('rm -f versions/{}'.format(file))
-
-
 def do_clean(number=0):
     """Do some cleaning"""
+    i = 0
     nb = len(listdir('versions/'))
     nbr = int(number)
-    if nbr >= nb:
-        return
-    dir = []
     if nbr == 0:
         nbr = 1
-    file = local('ls -1 versions/ | head -{}'.format(nb - nbr), capture=True)
-    filename = file.split()
-    for i in range(len(filename)):
-        dir.append(filename[i].split('.')[0])
-    for directory in dir:
-        run('rm -rf /data/web_static/releases/{}'.format(directory))
-    if env.host_string == '50.17.11.48':
-        clean_locally(filename)
+    files = local('ls -1 versions/', capture=True)
+    filename = files.split()
+    dir = run('ls -1 /data/web_static/releases/').split()
+    nb_dir = len(dir)
+    while nb_dir > nbr:
+        run('rm -rf /data/web_static/releases/{}/'.format(dir[i]))
+        i += 1
+        nb_dir -= 1
+    i = 0
+    while nb > nbr:
+        local('rm -f versions/{}'.format(filename[i]))
+        i += 1
+        nb -= 1
