@@ -78,9 +78,9 @@ def do_clean(number=0):
     nbr = int(number)
     if nbr == 0:
         nbr = 1
-    files = local('ls -1 versions/', capture=True)
+    files = local('ls -1t versions/', capture=True)
     filename = files.split()
-    dir = run('ls -1 /data/web_static/releases/').split()
+    dir = run('ls -1t /data/web_static/releases/').split()
     nb_dir = len(dir)
     while nb_dir > nbr:
         run('rm -rf /data/web_static/releases/{}/'.format(dir[i]))
