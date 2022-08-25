@@ -1,7 +1,7 @@
 # Set up Nginx
 exec {'update':
   command => 'apt-get update',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
 }
 
 -> package {'nginx':
@@ -12,12 +12,12 @@ exec {'update':
 
 -> exec {'mkdir1':
   command => 'mkdir -p /data/web_static/releases/test',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
 }
 
 -> exec {'mkdir2':
   command => 'mkdir -p /data/web_static/shared/',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
 }
 
 -> file {'echo':
@@ -29,19 +29,19 @@ exec {'update':
 
 -> exec {'rm':
   command => 'rm -rf /data/web_static/current',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
   require => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
 -> exec {'ln':
   command => 'ln -s /data/web_static/releases/test /data/web_static/current',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
   require => Exec['rm'],
 }
 
 -> exec {'chown':
   command => 'chown -R vagrant:vagrant /data/',
-  path    => '/usr/bin/env/',
+  path    => '/usr/bin/env',
   require => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
