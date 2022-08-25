@@ -87,7 +87,6 @@ def do_clean(number=0):
     dir = run('ls -1tr /data/web_static/releases/').split('\n')
     nb_dir = len(dir)
     while nb_dir > nbr:
-        if dir[i][:-1] != 'test':
-            run('rm -rf /data/web_static/releases/{}'.format(dir[i][:-1]))
+        run('rm -rf /data/web_static/releases/{}'.format(dir[i][:-1]))
         i += 1
         nb_dir -= 1
