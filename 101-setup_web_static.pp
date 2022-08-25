@@ -10,42 +10,47 @@ package {'nginx':
   require => Exec['update'],
 }
 
-exec {'create directories n°1':
+exec {'mkdir1':
   command => 'mkdir -p /data/web_static/releases/test',
   path    => '/usr/bin/',
 }
 
-exec {'create directories n°2':
+exec {'mkdir2':
   command => 'mkdir -p /data/web_static/shared/',
   path    => '/usr/bin/',
 }
 
-file {'Create a file':
+file {'echo':
   ensure  => 'present',
   path    => '/data/web_static/releases/test/index.html',
   content => 'Fake file',
+  require => Exec['mkdir1'],
 }
 
-exec {'remove symbolic link':
+exec {'rm':
   command => 'rm -rf /data/web_static/current',
   path    => '/usr/bin/',
+  require => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
-exec {'create a new symbolic link':
-  command => 'ln -sT /data/web_static/releases/test /data/web_static/current',
+exec {'ln':
+  command => 'ln -s /data/web_static/releases/test /data/web_static/current',
   path    => '/usr/bin/',
+  require => Exec['rm'],
 }
 
-exec {'change owner of directories':
-  command => 'chown -R "ubuntu":"ubuntu" /data/',
+exec {'chown':
+  command => 'chown -R ubuntu:ubuntu /data/',
   path    => '/usr/bin/',
+  require => [Exec['mkdir1'], Exec['mkdir2']],
 }
 
-file_line {'add redirection':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'server_name _;',
-  line   => 'location /hbnb_static { alias /data/web_static/current/; autoindex off; }',
+file_line {'redirection':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  index   => '47',
+  line    => 'location /hbnb_static { alias /data/web_static/current/; autoindex off; }',
+  require => Package['nginx'],
 }
 
 service {'nginx':
