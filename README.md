@@ -2,6 +2,14 @@
 
 This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
 
+<br>
+
+There are also 2 other projects in this repository:
+- **AirBnB - MySQL**
+- **AirBnB - Deploy static**
+
+<br>
+
 ---
 
 <center><h3>Repository Contents by Project Task</h3> </center>
@@ -53,7 +61,7 @@ This repository contains the initial stage of a student project to build a clone
 Users are able to issue a number of console command using an alternative syntax:
 
 	Usage: <class_name>.<command>([<id>[name_arg value_arg]|[kwargs]])
-Advanced syntax is implemented for the following commands: 
+Advanced syntax is implemented for the following commands:
 
     * all - Shows all objects the program has access to, or all objects of a given class
 
@@ -78,16 +86,16 @@ Usage: create <class_name>
 ```
 (hbnb) create BaseModel
 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-(hbnb)                   
+(hbnb)
 ```
 ###### Example 1: Show an object
 Usage: show <class_name> <_id>
 
 ```
 (hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-[BaseModel] (3aa5babc-efb6-4041-bfe9-3cc9727588f8) {'id': '3aa5babc-efb6-4041-bfe9-3cc9727588f8', 'created_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96959), 
+[BaseModel] (3aa5babc-efb6-4041-bfe9-3cc9727588f8) {'id': '3aa5babc-efb6-4041-bfe9-3cc9727588f8', 'created_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96959),
 'updated_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96971)}
-(hbnb)  
+(hbnb)
 ```
 ###### Example 2: Destroy an object
 Usage: destroy <class_name> <_id>
@@ -95,14 +103,14 @@ Usage: destroy <class_name> <_id>
 (hbnb) destroy BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
 (hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
 ** no instance found **
-(hbnb)   
+(hbnb)
 ```
 ###### Example 3: Update an object
 Usage: update <class_name> <_id>
 ```
 (hbnb) update BaseModel b405fc64-9724-498f-b405-e4071c3d857f first_name "person"
 (hbnb) show BaseModel b405fc64-9724-498f-b405-e4071c3d857f
-[BaseModel] (b405fc64-9724-498f-b405-e4071c3d857f) {'id': 'b405fc64-9724-498f-b405-e4071c3d857f', 'created_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729889), 
+[BaseModel] (b405fc64-9724-498f-b405-e4071c3d857f) {'id': 'b405fc64-9724-498f-b405-e4071c3d857f', 'created_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729889),
 'updated_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729907), 'first_name': 'person'}
 (hbnb)
 ```
@@ -140,3 +148,32 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 (hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 ```
 <br>
+
+## AirBnB - MySQL
+Concerned files and directories:
+- [console.py](./console.py)
+- [models](./models/)
+- [tests](./tests/)
+- [setup_mysql_dev.sql](./setup_mysql_dev.sql)
+- [setup_mysql_test.sql](./setup_mysql_test.sql)
+
+This project's purpose was to offer the possibility to use 2 different storage modes: [FileStorage](./models/engine/file_storage.py) (the only one available in the first version of the AirBnB clone) or [DBStorage](./models/engine/db_storage.py) thanks to storage abstraction. For that, several environment variables are passed with the execution of the console:
+- `HBNB_ENV`: running environment. It can be `dev` or `test`
+- `HBNB_MYSQL_USER`: the username of your MySQL
+- `HBNB_MYSQL_PWD`: the password of your MySQL
+- `HBNB_MYSQL_HOST`: the hostname of your MySQL
+- `HBNB_MYSQL_DB`: the database name of your MySQL
+- `HBNB_TYPE_STORAGE`: the type of storage used. It can be `file` (using `FileStorage`) or `db` (using `DBStorage`)
+
+## AirBnB - Deploy static
+Concerned files:
+- [0-setup_web_static.sh](./0-setup_web_static.sh)
+- [1-pack_web_static.py](./1-pack_web_static.py)
+- [2-do_deploy_web_static.py](./2-do_deploy_web_static.py)
+- [3-deploy_web_static.py](./3-deploy_web_static.py)
+- [100-clean_web_static.py](./100-clean_web_static.py)
+- [101-setup_web_static.pp](./101-setup_web_static.pp)
+
+Its purpose was to automate the deployment of a new version of the AirBnB's site using **Fabric**.
+
+The directory containing all the files of the site would be compressed into a `tgz` archive and sent on both servers. Then, the archive would be decompressed and put in `/data/web_static/releases/name_of_the_archive/` and make a symbolic link from `/data/web_static/current` to the latest deployment.
