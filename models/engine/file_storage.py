@@ -74,3 +74,7 @@ class FileStorage:
         """Delete an object from __objects"""
         if obj is not None:
             self.__objects.pop(obj.to_dict()['__class__'] + '.' + obj.id)
+
+    def close(self):
+        """Update the objects"""
+        self.reload()
