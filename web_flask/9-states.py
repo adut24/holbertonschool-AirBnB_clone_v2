@@ -11,7 +11,7 @@ app.jinja_env.lstrip_blocks = True
 
 
 @app.teardown_appcontext
-def close(exception):
+def teardown(exception):
     """Close storage"""
     storage.close()
 
