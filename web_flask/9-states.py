@@ -25,10 +25,11 @@ def states():
 @app.route('/states/<id>', strict_slashes=False)
 def cities_in_state(id):
     """List all cities in the state id that was given"""
-    try:
-        state = storage.all(State).values()['State.{}'.format(id)]
-    except KeyError:
-        state = None
+    states = storage.all(State).values()
+    state = None
+    for obj in states:
+        if id == obj.id:
+            state = obj
     return render_template('9-states.html', state=state)
 
 
