@@ -4,9 +4,10 @@ This repository contains the initial stage of a student project to build a clone
 
 <br>
 
-There are also 2 other projects in this repository:
+There are also 3 other projects in this repository:
 - **AirBnB - MySQL**
 - **AirBnB - Deploy static**
+- **AirBnB - Web framework**
 
 <br>
 
@@ -177,3 +178,13 @@ Concerned files:
 Its purpose was to automate the deployment of a new version of the AirBnB's site using **Fabric**.
 
 The directory containing all the files of the site would be compressed into a `tgz` archive and sent on both servers. Then, the archive would be decompressed and put in `/data/web_static/releases/name_of_the_archive/` and make a symbolic link from `/data/web_static/current` to the latest deployment.
+
+## AirBnB - Web framework
+Concerned files and directories:
+- [web_flask](./web_flask/)
+- [file_storage.py](./models/engine/file_storage.py)
+- [db_storage.py](./models/engine/db_storage.py)
+
+This project was the introduction to **Flask** and **Jinja2**.
+
+We saw how to create a route using Flask and how to render a template that would display different types of informations depending on the route used and the content of the storage mode used.
